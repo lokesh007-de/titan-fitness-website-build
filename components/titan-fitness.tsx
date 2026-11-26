@@ -24,6 +24,10 @@ export function TitanFitness() {
       <header className="site-header">
         <Link href="#top" className="brand" aria-label="Titan Fitness home"><span className="brand-mark"><Zap size={18} fill="currentColor" /></span> TITAN<span className="brand-light">/</span><span className="brand-light">FITNESS</span></Link>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#club">The club</a><a href="#training">Training</a><a href="#equipment">Equipment</a><a href="#membership">Membership</a></nav>
+        <details className="mobile-menu">
+          <summary>Menu <span aria-hidden="true">+</span></summary>
+          <nav className="mobile-menu-panel" aria-label="Mobile navigation"><a href="#club">The club</a><a href="#training">Training</a><a href="#equipment">Equipment</a><a href="#membership">Membership</a></nav>
+        </details>
         <a className="button button-lime nav-cta" href="#membership">Find your fit <ArrowUpRight size={16} /></a>
       </header>
 
