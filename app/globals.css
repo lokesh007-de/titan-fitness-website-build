@@ -305,6 +305,7 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
   .button-outline:active { border-color: #c95200; background: #c95200; color: #0a0a0a; }
 
 .site-header { position: sticky; top: 0; z-index: 99; margin-bottom: -74px; background: #0a0a0a; }
+.site-header.site-header-training { margin-bottom: 0; }
 .desktop-nav { gap: 12px; color: #ffffff; font-size: 14px; }
 .desktop-nav a { display: block; padding: 10px 8px; color: #ffffff; font-family: var(--font-body); text-decoration: none; transition: color .15s ease-in-out; }
 .desktop-nav a:hover, .desktop-nav a:active, .desktop-nav a.active, .desktop-nav a[aria-current="page"], .light-link:hover { color: #f36100; }
@@ -341,7 +342,7 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
   .route-heading h1 { margin: 16px 0 0; color: #ffffff; font-family: var(--font-heading); font-size: clamp(58px, 8vw, 94px); font-weight: 500; letter-spacing: -.025em; line-height: .9; text-transform: uppercase; }
   .route-heading > p:not(.eyebrow) { max-width: 440px; margin: 15px 0 0; color: #c4c4c4; font-size: 12px; line-height: 1.75; }
 .training-route-hero { position: relative; isolation: isolate; min-height: 430px; overflow: hidden; }
-.training-route-image { z-index: 0; object-fit: cover; object-position: center 43%; }
+.training-route-image { z-index: 0; object-fit: cover; object-position: 78% 43%; }
 .training-route-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,.86), rgba(10,10,10,.56) 42%, rgba(10,10,10,.16)), linear-gradient(0deg, rgba(10,10,10,.48), transparent 62%); }
 .training-route-hero > :not(.training-route-image):not(.training-route-shade) { position: relative; z-index: 2; }
 
@@ -353,5 +354,5 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
   .mobile-menu { display: block; position: relative; }
   .hero-shade { background: linear-gradient(90deg, rgba(10,10,10,.9), rgba(10,10,10,.42) 75%), linear-gradient(0deg, rgba(10,10,10,.7), transparent 55%); }
   .training-route-hero { min-height: 390px; padding-right: 5%; padding-left: 5%; }
-  .training-route-image { object-position: 62% center; }
+  .training-route-image { object-position: 70% center; }
 }

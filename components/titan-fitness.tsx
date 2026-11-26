@@ -40,7 +40,7 @@ export function TitanFitness({ page = 'home' }: { page?: TitanPage }) {
   return (
     <main>
       <div className="announcement"><span className="live-dot" /> NOW OPEN · YOUR NEW TRAINING GROUND <Link href="/membership">First class is on us <ArrowRight size={14} /></Link></div>
-      <header className="site-header">
+      <header className={`site-header${page === 'training' ? ' site-header-training' : ''}`}>
         <Link href="/" className="brand" aria-label="Titan Fitness home"><span className="brand-mark"><Zap size={18} fill="currentColor" /></span> TITAN<span className="brand-light">/</span><span className="brand-light">FITNESS</span></Link>
         <nav className="desktop-nav" aria-label="Main navigation"><Link href="/club" aria-current={page === 'club' ? 'page' : undefined}>The club</Link><Link href="/training" aria-current={page === 'training' ? 'page' : undefined}>Training</Link><Link href="/equipment" aria-current={page === 'equipment' ? 'page' : undefined}>Equipment</Link><Link href="/membership" aria-current={page === 'membership' ? 'page' : undefined}>Membership</Link></nav>
         <details className="mobile-menu">
