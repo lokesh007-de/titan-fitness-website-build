@@ -3,7 +3,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Titan Fitness — Built for the next set',
+  title: {
+    default: 'Titan Fitness — Built for the next set',
+    template: '%s | Titan Fitness',
+  },
   description:
     'Train your way at Titan Fitness. Join a community built for strength, energy, and your next personal best.',
   generator: 'v0.app',
