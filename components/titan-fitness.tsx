@@ -50,7 +50,22 @@ export function TitanFitness({ page = 'home' }: { page?: TitanPage }) {
         <Link className="button button-lime nav-cta" href="/membership">Find your fit <ArrowUpRight size={16} /></Link>
       </header>
 
-      {!isHome && <section className="route-heading" aria-labelledby="route-title"><p className="eyebrow"><span className="eyebrow-line" /> {page.toUpperCase()} AT TITAN</p><h1 id="route-title">{pageTitles[page]}</h1><p>{pageDescriptions[page]}</p></section>}
+      {!isHome && <section className={`route-heading${page === 'training' ? ' training-route-hero' : ''}`} aria-labelledby="route-title">
+        {page === 'training' && <>
+          <Image
+            className="training-route-image"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KXZwe1TCD7usM2a3baaHhOmzYDUuMn.png"
+            alt="Athlete holding a push-up position over kettlebells in a gym"
+            fill
+            priority
+            sizes="100vw"
+          />
+          <div className="training-route-shade" aria-hidden="true" />
+        </>}
+        <p className="eyebrow"><span className="eyebrow-line" /> {page.toUpperCase()} AT TITAN</p>
+        <h1 id="route-title">{pageTitles[page]}</h1>
+        <p>{pageDescriptions[page]}</p>
+      </section>}
 
       {isHome && <section className="hero" id="top" aria-labelledby="hero-title">
         <Image className="hero-image" src="/titan-hero.png" alt="Athlete deadlifting in a dramatic, dark training space" fill priority sizes="100vw" />
