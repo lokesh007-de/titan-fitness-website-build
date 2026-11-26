@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import {
   Camera,
-  Heart,
   Mail,
   MapPin,
   MessageCircle,
@@ -10,24 +9,19 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
+import { articles } from '@/lib/site-content'
 
 const usefulLinks = [
-  { label: 'About', href: '/club' },
-  { label: 'Blog', href: '#tips-guides' },
-  { label: 'Classes', href: '/training' },
-  { label: 'Contact', href: '/membership#join' },
+  { label: 'About', href: '/about' },
+  { label: 'Journal', href: '/blog' },
+  { label: 'Classes', href: '/classes' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 const supportLinks = [
-  { label: 'Login', href: '/membership#join' },
-  { label: 'My account', href: '/membership#join' },
-  { label: 'Subscribe', href: '/membership#join' },
-  { label: 'Contact', href: 'mailto:Support.gymcenter@gmail.com' },
-]
-
-const articles = [
-  'Physical fitness may help prevent depression, anxiety',
-  'Fitness: The best exercise to lose belly fat and tone up...',
+  { label: 'Frequently asked questions', href: '/faq' },
+  { label: 'Memberships', href: '/membership' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 const socialLinks = [
@@ -84,6 +78,7 @@ export function SiteFooter() {
                 </a>
               ))}
             </div>
+            <p className="footer-placeholder-note">Official contact details and social profiles are editable placeholders pending confirmation.</p>
           </section>
 
           <nav className="footer-column" aria-label="Useful links">
@@ -103,13 +98,13 @@ export function SiteFooter() {
           <section className="footer-guides" id="tips-guides" aria-labelledby="footer-guides-title">
             <h2 id="footer-guides-title">Tips &amp; Guides</h2>
             <div className="footer-articles">
-              {articles.map((article) => (
-                <article className="footer-article" key={article}>
-                  <Link className="footer-article-title" href="/training">{article}</Link>
+              {articles.slice(0, 2).map((article) => (
+                <article className="footer-article" key={article.slug}>
+                  <Link className="footer-article-title" href={`/blog/${article.slug}`}>{article.title}</Link>
                   <p className="footer-article-meta">
-                    <span>3 min read</span>
+                    <span>{article.meta}</span>
                     <span className="footer-meta-divider" aria-hidden="true">|</span>
-                    <a href="#tips-guides">20 Comments</a>
+                    <Link href={`/blog/${article.slug}`}>Read article</Link>
                   </p>
                 </article>
               ))}
@@ -119,9 +114,7 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-copyright">
-        <span>Copyright © 2026 All rights reserved</span>
-        <span aria-hidden="true">|</span>
-        <span>This template is made with <Heart size={14} fill="currentColor" aria-label="love" /> by <strong>Colorlib</strong></span>
+        <span>Copyright © 2026 Titan Fitness. All rights reserved.</span>
       </div>
     </footer>
   )

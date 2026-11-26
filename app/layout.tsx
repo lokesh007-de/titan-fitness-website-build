@@ -8,7 +8,19 @@ export const metadata: Metadata = {
     template: '%s | Titan Fitness',
   },
   description:
-    'Train your way at Titan Fitness. Join a community built for strength, energy, and your next personal best.',
+    'Explore Titan Fitness classes, coaches, training services, and membership options. Find your people, build strength, and make every visit count.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Titan Fitness',
+    title: 'Titan Fitness — Built for the next set',
+    description: 'A welcoming gym for classes, coaching, strength, and your next personal best.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Titan Fitness — Built for the next set',
+    description: 'Explore classes, coaches, training services, and memberships at Titan Fitness.',
+  },
   generator: 'v0.app',
   icons: {
     icon: [

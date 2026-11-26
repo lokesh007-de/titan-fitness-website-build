@@ -4,10 +4,23 @@ import { useActionState } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
 import { submitMembership, type MembershipFormState } from '@/app/actions/membership'
 
+type MembershipOption = {
+  id: string
+  name: string
+  priceCents: number
+  durationDays: number
+  billingInterval: string
+  featured?: boolean
+}
+
 const initialState: MembershipFormState = { status: 'idle', message: '' }
 
-export function MembershipSignup() {
+export function MembershipSignup({ plans, initialPlan }: { plans: MembershipOption[]; initialPlan?: string }) {
   const [state, action, pending] = useActionState(submitMembership, initialState)
+  const selectedPlan = plans.find((plan) => plan.id === initialPlan)?.id
+    ?? plans.find((plan) => plan.featured)?.id
+    ?? plans[0]?.id
+    ?? ''
 
   return (
     <form action={action} className="join-form">
@@ -18,17 +31,19 @@ export function MembershipSignup() {
       <label className="visually-hidden" htmlFor="phone">Phone number (optional)</label>
       <input id="phone" name="phone" type="tel" autoComplete="tel" placeholder="Phone (optional)" maxLength={32} />
       <label className="visually-hidden" htmlFor="membershipPlan">Choose a membership</label>
-      <select id="membershipPlan" name="membershipPlan" defaultValue="strength">
-        <option value="strength">Strength — $49/mo</option>
-        <option value="all-access">All access — $79/mo</option>
-        <option value="day-pass">Day pass — $19</option>
+      <select id="membershipPlan" name="membershipPlan" defaultValue={selectedPlan} required>
+        {plans.length > 0 ? plans.map((plan) => (
+          <option value={plan.id} key={plan.id}>
+            {plan.name} — ${(plan.priceCents / 100).toLocaleString('en-US', { maximumFractionDigits: 2 })} / {plan.durationDays === 1 ? 'one day' : `per ${plan.billingInterval}`}
+          </option>
+        )) : <option value="">Plans are temporarily unavailable</option>}
       </select>
       <div className="honeypot" aria-hidden="true">
         <label htmlFor="website">Leave this field empty</label>
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
-      <button className="button button-dark form-submit" type="submit" disabled={pending}>
-        {pending ? 'Sending…' : 'Get started'} {pending ? null : <ArrowRight size={17} aria-hidden="true" />}
+      <button className="button button-dark form-submit" type="submit" disabled={pending || plans.length === 0}>
+        {pending ? 'Sending…' : 'Request a visit'} {pending ? null : <ArrowRight size={17} aria-hidden="true" />}
       </button>
       {state.message ? (
         <p className={`form-message ${state.status}`} role="status" aria-live="polite">
@@ -36,7 +51,7 @@ export function MembershipSignup() {
           {state.message}
         </p>
       ) : (
-        <p className="form-caption">No pressure. Just a quick hello from our team.</p>
+        <p className="form-caption">No payment is taken here. The team will confirm current terms with you.</p>
       )}
     </form>
   )

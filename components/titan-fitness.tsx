@@ -5,17 +5,13 @@ import { MembershipSignup } from '@/components/membership-signup'
 import { ScrollReveals } from '@/components/scroll-reveals'
 import { EquipmentGallery } from '@/components/equipment-gallery'
 import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/site-header'
+import { getMembershipPlans } from '@/lib/db/queries'
 
 const benefits = [
   { icon: Dumbbell, title: 'Train your way', copy: 'Room to lift heavy, move fast, or find your rhythm. No waiting around.' },
   { icon: Users, title: 'Find your people', copy: 'Good energy is contagious. Meet a crew that keeps you coming back.' },
   { icon: Timer, title: 'Your hours, your rules', copy: 'Early bird or after dark. The doors are open when you are.' },
-]
-
-const plans = [
-  { id: 'day-pass', name: 'Day pass', price: '19', term: 'one day', note: 'A proper first date', features: ['Full club access', 'Classes included', 'No commitment'] },
-  { id: 'strength', name: 'Strength', price: '49', term: 'per month', note: 'Your everyday lineup', featured: true, features: ['All gym equipment', 'Unlimited group classes', 'Free intro session'] },
-  { id: 'all-access', name: 'All access', price: '79', term: 'per month', note: 'The whole playground', features: ['Everything in Strength', 'Recovery & sauna suite', 'Bring a friend weekly'] },
 ]
 
 type TitanPage = 'home' | 'club' | 'training' | 'equipment' | 'membership'
@@ -35,21 +31,33 @@ const pageDescriptions: Record<InteriorPage, string> = {
   membership: 'Simple plans, serious value, and a good fit for every kind of strong.',
 }
 
-export function TitanFitness({ page = 'home' }: { page?: TitanPage }) {
+export async function TitanFitness({ page = 'home', initialPlan }: { page?: TitanPage; initialPlan?: string }) {
   const isHome = page === 'home'
+  let databasePlans: Awaited<ReturnType<typeof getMembershipPlans>> = []
+
+  if (isHome || page === 'membership') {
+    try {
+      databasePlans = await getMembershipPlans()
+    } catch {
+      databasePlans = []
+    }
+  }
+
+  const plans = databasePlans.map((plan) => ({
+    id: plan.id,
+    name: plan.name,
+    price: (plan.priceCents / 100).toLocaleString('en-US', { maximumFractionDigits: 2 }),
+    term: plan.durationDays === 1 ? 'one day' : `per ${plan.billingInterval}`,
+    note: plan.tagline,
+    featured: plan.featured,
+    features: plan.benefits,
+  }))
+
+  const headerHref = page === 'club' ? '/club' : page === 'training' ? '/classes' : page === 'equipment' ? '/services' : page === 'membership' ? '/membership' : undefined
 
   return (
     <main>
-      <div className="announcement"><span className="live-dot" /> NOW OPEN · YOUR NEW TRAINING GROUND <Link href="/membership">First class is on us <ArrowRight size={14} /></Link></div>
-      <header className={`site-header${page === 'training' ? ' site-header-training' : ''}`}>
-        <Link href="/" className="brand" aria-label="Titan Fitness home"><span className="brand-mark"><Zap size={18} fill="currentColor" /></span> TITAN<span className="brand-light">/</span><span className="brand-light">FITNESS</span></Link>
-        <nav className="desktop-nav" aria-label="Main navigation"><Link href="/club" aria-current={page === 'club' ? 'page' : undefined}>The club</Link><Link href="/training" aria-current={page === 'training' ? 'page' : undefined}>Training</Link><Link href="/equipment" aria-current={page === 'equipment' ? 'page' : undefined}>Equipment</Link><Link href="/membership" aria-current={page === 'membership' ? 'page' : undefined}>Membership</Link></nav>
-        <details className="mobile-menu">
-          <summary>Menu <span aria-hidden="true">+</span></summary>
-          <nav className="mobile-menu-panel" aria-label="Mobile navigation"><Link href="/club" aria-current={page === 'club' ? 'page' : undefined}>The club</Link><Link href="/training" aria-current={page === 'training' ? 'page' : undefined}>Training</Link><Link href="/equipment" aria-current={page === 'equipment' ? 'page' : undefined}>Equipment</Link><Link href="/membership" aria-current={page === 'membership' ? 'page' : undefined}>Membership</Link></nav>
-        </details>
-        <Link className="button button-lime nav-cta" href="/membership">Find your fit <ArrowUpRight size={16} /></Link>
-      </header>
+      <SiteHeader currentHref={headerHref} />
 
       {!isHome && <section className={`route-heading${page === 'training' ? ' training-route-hero' : ''}`} aria-labelledby="route-title">
         {page === 'training' && <>
@@ -94,9 +102,9 @@ export function TitanFitness({ page = 'home' }: { page?: TitanPage }) {
 
       {(isHome || page === 'equipment') && <EquipmentGallery />}
 
-      {(isHome || page === 'membership') && <section className="membership-section section-pad" id="membership"><div className="membership-heading" data-reveal="left"><div><p className="eyebrow"><span className="eyebrow-line" /> A GOOD FIT, EVERY TIME</p><h2>Choose your<br /><span>kind of strong.</span></h2></div><p>Simple plans. Serious value.<br />Pick your pace, then let&apos;s go.</p></div><div className="plans-grid">{plans.map((plan, index) => <article className={`plan-card${plan.featured ? ' featured' : ''}`} data-reveal="up" data-reveal-delay={index * 100} key={plan.id}>{plan.featured && <div className="plan-badge">THE PEOPLE&apos;S FAVORITE <Sparkles size={13} /></div>}<div className="plan-card-top"><span>{plan.name}</span><MoveUpRight size={18} /></div><p className="plan-note">{plan.note}</p><div className="plan-price"><span className="currency">$</span>{plan.price}<span className="plan-term">/ {plan.term}</span></div><div className="plan-divider"/><ul>{plan.features.map(feature => <li key={feature}><span className="checkmark">✓</span>{feature}</li>)}</ul><Link className={`button ${plan.featured ? 'button-lime' : 'button-outline'}`} href="/membership#join">Choose {plan.name} <ArrowRight size={16} /></Link></article>)}</div></section>}
+      {(isHome || page === 'membership') && <section className="membership-section section-pad" id="membership"><div className="membership-heading" data-reveal="left"><div><p className="eyebrow"><span className="eyebrow-line" /> A GOOD FIT, EVERY TIME</p><h2>Choose your<br /><span>kind of strong.</span></h2></div><p>Simple plans. Serious value.<br />Pick your pace, then let&apos;s go.</p></div><div className="plans-grid">{plans.length ? plans.map((plan, index) => <article className={`plan-card${plan.featured ? ' featured' : ''}`} data-reveal="up" data-reveal-delay={index * 100} key={plan.id}>{plan.featured && <div className="plan-badge">THE PEOPLE&apos;S FAVORITE <Sparkles size={13} /></div>}<div className="plan-card-top"><Link href={`/membership/${encodeURIComponent(plan.id)}`}>{plan.name}</Link><MoveUpRight size={18} aria-hidden="true" /></div><p className="plan-note">{plan.note}</p><div className="plan-price"><span className="currency">$</span>{plan.price}<span className="plan-term">/ {plan.term}</span></div><div className="plan-divider"/><ul>{plan.features.map(feature => <li key={feature}><span className="checkmark">✓</span>{feature}</li>)}</ul><Link className={`button ${plan.featured ? 'button-lime' : 'button-outline'}`} href={`/membership?plan=${encodeURIComponent(plan.id)}#join`}>Ask about {plan.name} <ArrowRight size={16} /></Link></article>) : <p className="plans-unavailable">Membership options are temporarily unavailable. <Link href="/contact">Contact the team for current details.</Link></p>}</div></section>}
 
-      {(isHome || page === 'membership') && <section className="join-section" id="join"><div className="join-message" data-reveal="left"><p className="eyebrow light-eyebrow"><span className="eyebrow-line" /> YOUR NEXT CHAPTER STARTS HERE</p><h2>One good<br />decision.<br /><span>Big energy.</span></h2><p>Drop your details. We&apos;ll save you a spot and show you around.</p><div className="join-footnote"><div className="join-footnote-icon"><Zap size={17} fill="currentColor" /></div><span>Come in curious.<br /><strong>Leave feeling unstoppable.</strong></span></div></div><div className="join-panel" data-reveal="right"><div className="join-panel-heading"><span>01 <i /> 03</span><span>TAKE THE FIRST STEP</span></div><h3>Let&apos;s get<br />you moving.</h3><p>Tell us a little about you and the team will be in touch.</p><MembershipSignup /><span className="form-index">TITAN / MEMBERSHIP</span></div></section>}
+      {(isHome || page === 'membership') && <section className="join-section" id="join"><div className="join-message" data-reveal="left"><p className="eyebrow light-eyebrow"><span className="eyebrow-line" /> YOUR NEXT CHAPTER STARTS HERE</p><h2>One good<br />decision.<br /><span>Big energy.</span></h2><p>Drop your details. We&apos;ll save you a spot and show you around.</p><div className="join-footnote"><div className="join-footnote-icon"><Zap size={17} fill="currentColor" /></div><span>Come in curious.<br /><strong>Leave feeling unstoppable.</strong></span></div></div><div className="join-panel" data-reveal="right"><div className="join-panel-heading"><span>01 <i /> 03</span><span>TAKE THE FIRST STEP</span></div><h3>Let&apos;s get<br />you moving.</h3><p>Tell us a little about you and the team will be in touch.</p><MembershipSignup plans={databasePlans} initialPlan={initialPlan} /><span className="form-index">TITAN / MEMBERSHIP</span></div></section>}
 
       <SiteFooter />
       <ScrollReveals />

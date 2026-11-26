@@ -1,14 +1,13 @@
 'use server'
 
+import { and, eq } from 'drizzle-orm'
 import { getDb } from '@/lib/db'
-import { gymMembershipLeads } from '@/lib/db/schema'
+import { gymMembershipLeads, membershipPlans } from '@/lib/db/schema'
 
 export type MembershipFormState = {
   status: 'idle' | 'success' | 'error'
   message: string
 }
-
-const allowedPlans = new Set(['day-pass', 'strength', 'all-access'])
 
 export async function submitMembership(
   _previousState: MembershipFormState,
@@ -28,13 +27,22 @@ export async function submitMembership(
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
     email.length > 254 ||
     phone.length > 32 ||
-    !allowedPlans.has(membershipPlan)
+    !membershipPlan
   ) {
     return { status: 'error', message: 'Check your details and try again.' }
   }
 
   try {
-    await getDb().insert(gymMembershipLeads).values({
+    const db = getDb()
+    const [activePlan] = await db
+      .select({ id: membershipPlans.id })
+      .from(membershipPlans)
+      .where(and(eq(membershipPlans.id, membershipPlan), eq(membershipPlans.isActive, true)))
+      .limit(1)
+
+    if (!activePlan) return { status: 'error', message: 'Choose an available membership plan and try again.' }
+
+    await db.insert(gymMembershipLeads).values({
       fullName,
       email,
       phone: phone || null,
