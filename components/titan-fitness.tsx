@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Dumbbell, MoveUpRight, Play, Spark
 import { MembershipSignup } from '@/components/membership-signup'
 import { ScrollReveals } from '@/components/scroll-reveals'
 import { EquipmentGallery } from '@/components/equipment-gallery'
+import { SiteFooter } from '@/components/site-footer'
 
 const benefits = [
   { icon: Dumbbell, title: 'Train your way', copy: 'Room to lift heavy, move fast, or find your rhythm. No waiting around.' },
@@ -97,7 +98,7 @@ export function TitanFitness({ page = 'home' }: { page?: TitanPage }) {
 
       {(isHome || page === 'membership') && <section className="join-section" id="join"><div className="join-message" data-reveal="left"><p className="eyebrow light-eyebrow"><span className="eyebrow-line" /> YOUR NEXT CHAPTER STARTS HERE</p><h2>One good<br />decision.<br /><span>Big energy.</span></h2><p>Drop your details. We&apos;ll save you a spot and show you around.</p><div className="join-footnote"><div className="join-footnote-icon"><Zap size={17} fill="currentColor" /></div><span>Come in curious.<br /><strong>Leave feeling unstoppable.</strong></span></div></div><div className="join-panel" data-reveal="right"><div className="join-panel-heading"><span>01 <i /> 03</span><span>TAKE THE FIRST STEP</span></div><h3>Let&apos;s get<br />you moving.</h3><p>Tell us a little about you and the team will be in touch.</p><MembershipSignup /><span className="form-index">TITAN / MEMBERSHIP</span></div></section>}
 
-      <footer className="site-footer"><div className="footer-top" data-reveal="up"><Link href="/" className="brand footer-brand"><span className="brand-mark"><Zap size={18} fill="currentColor" /></span> TITAN<span className="brand-light">/FITNESS</span></Link><p>Show up for you.<br /><span>And each other.</span></p><a className="social-link" href="https://www.instagram.com/" aria-label="Titan Fitness on Instagram"><span className="social-monogram" aria-hidden="true">ig</span><span>FOLLOW THE MOVEMENT</span><ArrowUpRight size={15} /></a></div><div className="footer-bottom"><span>© 2026 TITAN FITNESS CLUB. ALL RIGHTS RESERVED.</span><span>GOOD THINGS HAPPEN WHEN YOU SHOW UP.</span><a href="mailto:hello@titanfitness.club">SAY HELLO <ArrowRight size={13} /></a></div></footer>
+      <SiteFooter />
       <ScrollReveals />
     </main>
   )
