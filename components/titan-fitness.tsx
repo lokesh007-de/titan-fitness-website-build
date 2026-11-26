@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowDown, ArrowRight, ArrowUpRight, Dumbbell, MoveUpRight, Play, Sparkles, Star, Timer, Users, Zap } from 'lucide-react'
 import { MembershipSignup } from '@/components/membership-signup'
 import { ScrollReveals } from '@/components/scroll-reveals'
+import { EquipmentGallery } from '@/components/equipment-gallery'
 
 const benefits = [
   { icon: Dumbbell, title: 'Train your way', copy: 'Room to lift heavy, move fast, or find your rhythm. No waiting around.' },
@@ -22,7 +23,7 @@ export function TitanFitness() {
       <div className="announcement"><span className="live-dot" /> NOW OPEN · YOUR NEW TRAINING GROUND <a href="#membership">First class is on us <ArrowRight size={14} /></a></div>
       <header className="site-header">
         <Link href="#top" className="brand" aria-label="Titan Fitness home"><span className="brand-mark"><Zap size={18} fill="currentColor" /></span> TITAN<span className="brand-light">/</span><span className="brand-light">FITNESS</span></Link>
-        <nav className="desktop-nav" aria-label="Main navigation"><a href="#club">The club</a><a href="#training">Training</a><a href="#membership">Membership</a></nav>
+        <nav className="desktop-nav" aria-label="Main navigation"><a href="#club">The club</a><a href="#training">Training</a><a href="#equipment">Equipment</a><a href="#membership">Membership</a></nav>
         <a className="button button-lime nav-cta" href="#membership">Find your fit <ArrowUpRight size={16} /></a>
       </header>
 
@@ -49,6 +50,8 @@ export function TitanFitness() {
       </section>
 
       <section className="training-section" id="training"><div className="training-photo" data-reveal="left"><Image src="/titan-hero.png" alt="Titan member finding her strength during a barbell workout" fill sizes="(max-width: 800px) 100vw, 50vw" /></div><div className="training-copy" data-reveal="right"><p className="eyebrow light-eyebrow"><span className="eyebrow-line" /> BUILT AROUND YOU</p><h2>More than<br />a room full<br />of <span>weights.</span></h2><p>From first rep to next-level PR, we build the kind of training that meets you where you are—and brings out where you can go.</p><div className="training-tags"><span><Dumbbell size={15} /> Strength</span><span><Sparkles size={15} /> Classes</span><span><Zap size={15} /> Conditioning</span></div><a className="text-link light-link" href="#membership">Explore the club <ArrowRight size={16} /></a><div className="training-index">02 <i /> THE WORK IS YOURS</div></div></section>
+
+      <EquipmentGallery />
 
       <section className="membership-section section-pad" id="membership"><div className="membership-heading" data-reveal="left"><div><p className="eyebrow"><span className="eyebrow-line" /> A GOOD FIT, EVERY TIME</p><h2>Choose your<br /><span>kind of strong.</span></h2></div><p>Simple plans. Serious value.<br />Pick your pace, then let&apos;s go.</p></div><div className="plans-grid">{plans.map((plan, index) => <article className={`plan-card${plan.featured ? ' featured' : ''}`} data-reveal="up" data-reveal-delay={index * 100} key={plan.id}>{plan.featured && <div className="plan-badge">THE PEOPLE&apos;S FAVORITE <Sparkles size={13} /></div>}<div className="plan-card-top"><span>{plan.name}</span><MoveUpRight size={18} /></div><p className="plan-note">{plan.note}</p><div className="plan-price"><span className="currency">$</span>{plan.price}<span className="plan-term">/ {plan.term}</span></div><div className="plan-divider"/><ul>{plan.features.map(feature => <li key={feature}><span className="checkmark">✓</span>{feature}</li>)}</ul><a className={`button ${plan.featured ? 'button-lime' : 'button-outline'}`} href="#join">Choose {plan.name} <ArrowRight size={16} /></a></article>)}</div></section>
 
