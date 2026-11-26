@@ -266,13 +266,19 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
 .equipment-card-info p { color: #c4c4c4; }
 .equipment-card-arrow { border-color: #555555; color: #ffffff; }
 .equipment-card:hover .equipment-card-arrow { background: #f36100; color: #0a0a0a; }
-.plan-card { border-color: #333333; background: #151515; color: #ffffff; }
-.plan-card.featured { border-color: #f36100; background: #151515; }
-.plan-badge { background: #f36100; color: #0a0a0a; }
-.plan-note, .plan-term { color: #aaaaaa; }
-.plan-divider { background: #333333; }
-.plan-card ul { color: #c4c4c4; }
-.checkmark, .featured .checkmark { color: #f36100; }
+  .plan-card { border: 1px solid #333333; border-radius: 0; background: #151515; color: #ffffff; transition: background-color .2s ease-in-out, color .2s ease-in-out, border-color .2s ease-in-out; }
+  .plan-card.featured { border-color: #f36100; background: #151515; }
+  .plan-card:hover { border-color: #ffffff; background: #ffffff; color: #212529; }
+  .plan-card:hover .plan-card-top svg { color: #212529; }
+  .plan-card:hover .plan-note, .plan-card:hover .plan-term { color: #555555; }
+  .plan-card:hover .plan-divider { background: #d5d5d5; }
+  .plan-card:hover ul { color: #444444; }
+  .plan-badge { background: #f36100; color: #0a0a0a; }
+  .plan-note, .plan-term { color: #aaaaaa; }
+  .plan-divider { background: #333333; }
+  .plan-card ul { color: #c4c4c4; }
+  .checkmark, .featured .checkmark { color: #f36100; }
+
 .join-section { background: #151515; }
 .join-message { background: #151515; }
 .join-message h2 span { color: #f36100; }
@@ -285,15 +291,19 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
 .form-message.error { color: #0a0a0a; }
 .form-index { color: #0a0a0a; }
 .join-footnote-icon { background: #f36100; color: #0a0a0a; }
-.button { transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
-.button:hover { transform: none; }
-.button-lime { background: #f36100; color: #0a0a0a; }
-.button-lime:hover { background: #e05c00; color: #0a0a0a; }
-.button-lime:active { background: #c95200; }
-.button-dark { background: #333333; color: #ffffff; }
-.button-dark:hover { background: #151515; }
-.button-outline { border-color: #f36100; color: #ffffff; }
-.button-outline:hover { border-color: #f36100; background: #f36100; color: #0a0a0a; }
+  .button { border-radius: 0; letter-spacing: 2px; text-transform: uppercase; transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+  .button:not(.nav-cta) { padding: 17px 30px 16px; }
+  .button:hover { transform: none; }
+  .button-lime { background: #f36100; color: #0a0a0a; }
+  .button-lime:hover { background: #e05c00; color: #0a0a0a; }
+  .button-lime:active { background: #c95200; }
+  .button-dark { background: #333333; color: #ffffff; }
+  .button-dark:hover { background: #151515; }
+  .button-dark:active { background: #000000; }
+  .button-outline { border-color: #f36100; color: #ffffff; }
+  .button-outline:hover { border-color: #f36100; background: #f36100; color: #0a0a0a; }
+  .button-outline:active { border-color: #c95200; background: #c95200; color: #0a0a0a; }
+
 .desktop-nav { color: #ffffff; }
 .desktop-nav a:hover, .light-link:hover { color: #f36100; }
 :where(a, button, input, select, [tabindex]):focus-visible { outline: 2px solid #f36100; outline-offset: 3px; }
