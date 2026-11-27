@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description: 'Explore Titan Fitness membership plans and find a good fit for your goals.',
 }
 
-export default function MembershipPage() {
-  return <TitanFitness page="membership" />
+export const dynamic = 'force-dynamic'
+
+export default async function MembershipPage({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
+  const { plan } = await searchParams
+  return <TitanFitness page="membership" initialPlan={plan} />
 }
