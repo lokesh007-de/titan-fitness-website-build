@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowDown, ArrowRight, ArrowUpRight, Dumbbell, MoveUpRight, Play, Sparkles, Star, Timer, Users, Zap } from 'lucide-react'
 import { MembershipSignup } from '@/components/membership-signup'
+import { Hero3DScene } from '@/components/hero-3d-scene'
 import { ScrollReveals } from '@/components/scroll-reveals'
 import { EquipmentGallery } from '@/components/equipment-gallery'
 import { SiteFooter } from '@/components/site-footer'
@@ -78,6 +79,7 @@ export async function TitanFitness({ page = 'home', initialPlan }: { page?: Tita
 
       {isHome && <section className="hero" id="top" aria-labelledby="hero-title">
         <Image className="hero-image" src="/titan-hero.png" alt="Athlete deadlifting in a dramatic, dark training space" fill priority sizes="100vw" />
+        <Hero3DScene />
         <div className="hero-shade" />
         <div className="hero-copy">
           <p className="eyebrow light-eyebrow"><span className="eyebrow-line" /> YOUR CITY. YOUR PEOPLE. YOUR STRONG.</p>

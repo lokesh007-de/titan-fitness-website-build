@@ -536,3 +536,53 @@ html.has-scroll-reveals [data-reveal].is-visible { opacity: 1; transform: transl
   .plan-detail-aside { padding-top: 0; }
   .plan-detail-price { font-size: 56px; }
 }
+
+.hero-3d-scene {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 2%;
+  width: min(64%, 940px);
+  height: 100%;
+  opacity: .96;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at 58% 50%, #000 30%, transparent 78%);
+}
+.hero-3d-scene canvas { display: block; }
+.hero-3d-fallback { position: absolute; inset: 0; display: grid; place-items: center; perspective: 900px; }
+.fallback-orbit { position: absolute; width: min(31vw, 410px); aspect-ratio: 1; border: 1px solid rgba(243,97,0,.43); border-radius: 50%; transform-style: preserve-3d; animation: fallback-orbit 15s linear infinite; }
+.fallback-orbit-one { transform: rotateX(68deg) rotateY(-18deg); }
+.fallback-orbit-two { width: min(35vw, 470px); border-color: rgba(255,255,255,.15); animation-direction: reverse; transform: rotateX(68deg) rotateY(28deg); }
+.fallback-barbell { position: relative; display: flex; width: min(36vw, 500px); height: 82px; align-items: center; justify-content: center; transform: rotate(-13deg) rotateY(-18deg); transform-style: preserve-3d; animation: fallback-lift 5s ease-in-out infinite; }
+.fallback-shaft { z-index: 1; width: 77%; height: 9px; border: 1px solid #dadada; border-radius: 9px; background: linear-gradient(180deg, #f5f5f5, #777 38%, #222 72%, #aaa); box-shadow: 0 9px 24px rgba(0,0,0,.6); }
+.fallback-plate { z-index: 2; display: block; width: 42px; height: 74px; margin: 0 -2px; border: 2px solid #444; border-radius: 9px; background: linear-gradient(110deg, #111, #484848 42%, #171717 66%, #050505); box-shadow: 8px 11px 18px rgba(0,0,0,.55); }
+.fallback-plate-inner { width: 27px; height: 55px; border-color: #f36100; background: linear-gradient(110deg, #873400, #f36100 40%, #632600 72%, #321400); }
+@keyframes fallback-orbit { to { rotate: 1turn; } }
+@keyframes fallback-lift { 0%, 100% { translate: 0 8px; } 50% { translate: 0 -12px; } }
+.hero-shade { z-index: 2; }
+.hero-copy, .hero-side-note, .scroll-cue, .hero-coordinates { z-index: 3; }
+.benefit-card, .plan-card, .equipment-card, .public-card, .about-principle {
+  transform: perspective(900px) translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2,.7,.2,1), border-color 220ms ease, background-color 220ms ease, color 220ms ease;
+}
+.benefit-card:hover, .benefit-card:focus-within { transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-5px); }
+.plan-card:hover, .plan-card:focus-within { transform: perspective(900px) rotateX(1.5deg) rotateY(1deg) translateY(-5px); }
+.equipment-card:hover, .equipment-card:focus-within { transform: perspective(900px) rotateX(1deg) rotateY(-1deg) translateY(-4px); }
+.public-card:hover, .public-card:focus-visible, .about-principle:hover { transform: perspective(900px) rotateX(1.5deg) rotateY(-1.5deg) translateY(-4px); }
+.training-photo img { animation: training-photo-drift 18s ease-in-out infinite alternate; }
+@keyframes training-photo-drift {
+  from { transform: scale(1.01) translate3d(0, 0, 0); }
+  to { transform: scale(1.075) translate3d(-1%, -0.6%, 0); }
+}
+@media (max-width: 700px) {
+  .hero-3d-scene { right: -20%; width: 100%; opacity: .36; mask-image: radial-gradient(ellipse at 62% 48%, #000 18%, transparent 76%); }
+  .hero-shade { z-index: 2; }
+  .hero-copy { z-index: 3; }
+  .hero-side-note, .scroll-cue, .hero-coordinates { z-index: 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-scene { display: none; }
+  .training-photo img { animation: none; }
+  .benefit-card, .plan-card, .equipment-card, .public-card, .about-principle { transform: none !important; }
+}
